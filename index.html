@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Calcul du Débit Cardiaque</title>
+</head>
+<body>
+    <h2>Calcul du Débit Cardiaque</h2>
+    <label for="itv">ITV (en cm) :</label>
+    <input type="number" id="itv" step="0.1"><br><br>
+
+    <label for="surface">Surface de l'orifice aortique (en cm²) :</label>
+    <input type="number" id="surface" step="0.1"><br><br>
+
+    <label for="fc">Fréquence cardiaque (bpm) :</label>
+    <input type="number" id="fc"><br><br>
+
+    <button onclick="calculerDC()">Calculer le débit cardiaque</button>
+
+    <h3 id="resultat"></h3>
+
+    <script>
+        function calculerDC() {
+            const itv = parseFloat(document.getElementById("itv").value);
+            const surface = parseFloat(document.getElementById("surface").value);
+            const fc = parseFloat(document.getElementById("fc").value);
+
+            if (isNaN(itv) || isNaN(surface) || isNaN(fc)) {
+                document.getElementById("resultat").innerText = "Veuillez remplir toutes les valeurs.";
+                return;
+            }
+
+            const ves = itv * surface; // en cm³
+            const dc = (ves * fc) / 1000; // en L/min
+
+            document.getElementById("resultat").innerText = 
+                `Débit cardiaque : ${dc.toFixed(2)} L/min`;
+        }
+    </script>
+</body>
+</html>
