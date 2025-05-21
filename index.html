@@ -2,11 +2,35 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calcul du Débit Cardiaque</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
         label, input, button, select {
             display: block;
+            width: 100%;
             margin: 10px 0;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        h2, h3 {
+            text-align: center;
         }
     </style>
 </head>
@@ -42,4 +66,35 @@
     <script>
         function changerMode() {
             const mode = document.getElementById("mode").value;
-            document.getElementById("surfaceDiv").style.display =
+            document.getElementById("surfaceDiv").style.display = (mode === "surface") ? "block" : "none";
+            document.getElementById("diametreDiv").style.display = (mode === "diametre") ? "block" : "none";
+        }
+
+        function calculerDC() {
+            const itv = parseFloat(document.getElementById("itv").value);
+            const fc = parseFloat(document.getElementById("fc").value);
+            const mode = document.getElementById("mode").value;
+
+            let surface;
+
+            if (mode === "surface") {
+                surface = parseFloat(document.getElementById("surface").value);
+            } else {
+                const diametre = parseFloat(document.getElementById("diametre").value);
+                surface = Math.PI * Math.pow(diametre / 2, 2);
+            }
+
+            if (isNaN(itv) || isNaN(surface) || isNaN(fc)) {
+                document.getElementById("resultat").innerText = "Veuillez remplir toutes les valeurs.";
+                return;
+            }
+
+            const ves = itv * surface;
+            const dc = (ves * fc) / 1000;
+
+            document.getElementById("resultat").innerText = 
+                `Débit cardiaque : ${dc.toFixed(2)} L/min`;
+        }
+    </script>
+</body>
+</html>
